@@ -1,17 +1,23 @@
 pipeline {
-    agent any
-  
+  agent any
   stages {
-    stage("build"){
+    agent {label "Local-Docker"}
+    stage("Build"){
       steps {
-        echo "building the application"  
+        sh 'docker-compose up --build -d'
       }
     }
-      
-    stage("test"){
+    stage("Static code anlysis"){
       steps {
-        echo "test the application"  
+        sh 'docker exec -i flask-practice bash -c "flake8"'  
       }
     }
   }
+  // stages {
+  //   stage("test"){
+  //     steps {
+  //       echo "testing the application"  
+  //     }
+  //   }
+  // }
 }
