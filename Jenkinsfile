@@ -20,7 +20,7 @@ pipeline {
     stage("Deploy"){
       agent {label "local-server"}
       steps {
-        sh 'yes | docker-compose up --build -d'
+        sh 'docker-compose up --build -d'
       }
     }
   }
