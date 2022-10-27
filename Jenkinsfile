@@ -16,12 +16,6 @@ pipeline {
     stage("Test"){
       agent {label "Local-Docker"}
       steps {
-        sh 'docker exec -i flask-practice bash -c "flake8"'  
-      }
-    }
-    stage("TEST"){
-      agent {label "Local-Docker"}
-      steps {
         echo "Testing"
         sh 'docker exec -i flask-practice bash -c "pytest"'
       }
