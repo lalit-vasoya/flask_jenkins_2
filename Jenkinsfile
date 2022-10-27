@@ -4,7 +4,7 @@ pipeline {
     stage("Build"){
       agent {label "Local-Docker"}
       steps {
-        sh 'docker-compose up --build -d'
+        sh 'yes | docker-compose up --build -d'
       }
     }
     stage("Static code anlysis"){
