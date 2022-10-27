@@ -22,6 +22,7 @@ pipeline {
     }
   }
   post{
+    agent {label "Local-Docker"}
     always{
       echo 'Docker stop application!'
       sh 'docker-compose down'
