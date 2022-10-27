@@ -18,7 +18,7 @@ pipeline {
       }
     }
     stage("Deploy"){
-      agent {label "local-docker"}
+      agent {label "local-server"}
       steps {
         sh 'yes | docker-compose up --build -d'
       }
