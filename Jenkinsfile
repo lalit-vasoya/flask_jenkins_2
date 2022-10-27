@@ -17,6 +17,12 @@ pipeline {
         sh 'docker exec -i flask-practice bash -c "pytest"'
       }
     }
+    stage("Build"){
+      agent any
+      steps {
+        sh 'yes | docker-compose up --build -d'
+      }
+    }
   }
   post{
     always{
