@@ -24,7 +24,7 @@ pipeline {
   post{
     always{
       echo 'Docker stop application!'
-      sh 'docker stop flask-practice'
+      sh 'docker-compose down'
     }
   }
   // stages {
