@@ -1,20 +1,17 @@
 pipeline {
-  agent any
+  agent {label "Local-Docker"}
   stages {
     stage("Build"){
-      agent {label "Local-Docker"}
       steps {
         sh 'yes | docker-compose up --build -d'
       }
     }
     stage("Static code anlysis"){
-      agent {label "Local-Docker"}
       steps {
         sh 'docker exec -i flask-practice bash -c "flake8"'  
       }
     }
     stage("Test"){
-      agent {label "Local-Docker"}
       steps {
         echo "Testing"
         sh 'docker exec -i flask-practice bash -c "pytest"'
@@ -22,7 +19,6 @@ pipeline {
     }
   }
   post{
-    agent {label "Local-Docker"}
     always{
       echo 'Docker stop application!'
       sh 'docker-compose down'
