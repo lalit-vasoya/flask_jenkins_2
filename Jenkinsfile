@@ -28,13 +28,18 @@ pipeline {
     always{
       echo 'Docker stop application!'
       sh 'docker-compose down'
+      sendNotificationByEmail()
     }
   }
-  // stages {
-  //   stage("test"){
-  //     steps {
-  //       echo "testing the application"  
-  //     }
-  //   }
-  // }
+}
+
+def sendNotificationByEmail(){
+    emailext (
+        attachLog: true,
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+        recipientProviders: [developers(), buildUser()],
+        to: "${env.ghprbActualCommitAuthorEmail}"
+    )
 }
