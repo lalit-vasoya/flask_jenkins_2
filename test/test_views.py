@@ -1,5 +1,4 @@
 
-
 class TestSimpleCase:
 
     def test_hello_world(self):
