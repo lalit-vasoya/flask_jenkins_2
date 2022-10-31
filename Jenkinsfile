@@ -43,3 +43,4 @@ def sendNotificationByEmail(){
         to: "${env.ghprbActualCommitAuthorEmail}"
     )
 }
+
