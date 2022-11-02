@@ -20,6 +20,7 @@ pipeline {
     stage("Deploy"){
       agent {label "local-slave-server"}
       steps {
+        sh 'pwd'
         sh 'docker-compose down && docker-compose up --build -d'
       }
     }
