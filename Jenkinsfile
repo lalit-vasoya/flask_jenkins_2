@@ -38,9 +38,12 @@ def sendNotificationByEmail(){
     emailext (
         attachLog: true,
         subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-        recipientProviders: [developers(), buildUser()],
+        body: """
+            <p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>
+            '${env.ghprbActualCommitAuthorEmail}' 
+        """+ developers() + buildUser(),
+        recipientProviders: [developers(), buildUser(), ${env.ghprbActualCommitAuthorEmail}],
         to: ${env.ghprbActualCommitAuthorEmail}
     )
 }
