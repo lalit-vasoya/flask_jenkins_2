@@ -18,8 +18,9 @@ pipeline {
       }
     }
     stage("Deploy"){
-      agent {label "local-server"}
+      agent {label "local-slave-server"}
       steps {
+        sh 'pwd'
         sh 'docker-compose down && docker-compose up --build -d'
       }
     }
@@ -37,9 +38,12 @@ def sendNotificationByEmail(){
     emailext (
         attachLog: true,
         subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+        body: """
+            <p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>
+        """,
         recipientProviders: [developers(), buildUser()],
-        to: "${env.ghprbActualCommitAuthorEmail}"
+        to: ${env.ghprbActualCommitAuthorEmail}
     )
 }
+
